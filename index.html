@@ -23,7 +23,10 @@
     <div>
         <div>帳號:<input type="text"></div>
         <div>密碼:<input type="password"></div>
-        <button onclick="fbLogin()">Facebook登入</button>
+        <fb:login-button 
+            scope="public_profile,email"
+            onlogin="checkLoginState();">
+        </fb:login-button>
     </div>
     <div>登入狀態:<span class="isLogin">未登入</span></div>
 
@@ -52,7 +55,7 @@
         fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
 
-        function fbLogin() {
+        function checkLoginState() {
             FB.getLoginStatus(function(response) {
                 console.log(response)
                 statusChangeCallback(response);
@@ -62,7 +65,6 @@
         function statusChangeCallback(response) {
             const { status } = response
             state.isLogin = status 
-            console.log(state)
         }
 
         
