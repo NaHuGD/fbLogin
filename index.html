@@ -11,7 +11,7 @@
         button {
             color: #fff;
             border-radius: 6px;
-            background: #5590F5;
+            background: #4966B5;
             border: 0;
         }
         button:focus {
@@ -24,14 +24,14 @@
         <div>帳號:<input type="text"></div>
         <div>密碼:<input type="password"></div>
         <button onclick="fbLogin()">Facebook登入</button>
-        <fb:login-button 
-        scope="public_profile,email"
-        onlogin="checkLoginState();">
-        </fb:login-button>
     </div>
+    <div>登入狀態:<span class="isLogin">未登入</span></div>
 
     <script>
-        console.log('start')
+    const state = {
+        isLogin: null,
+    }
+    
     window.fbAsyncInit = function() {
         FB.init({
             appId      : '603510020334245',
@@ -54,16 +54,19 @@
 
         function fbLogin() {
             FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
-        }
-
-        function checkLoginState() {
-            FB.getLoginStatus(function(response) {
                 console.log(response)
                 statusChangeCallback(response);
             });
         }
+
+        function statusChangeCallback(response) {
+            const { status } = response
+            state.isLogin = status 
+            console.log(state)
+        }
+
+        
+
     </script>
 </body>
 </html>
