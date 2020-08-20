@@ -55,13 +55,14 @@
     }(document, 'script', 'facebook-jssdk'));
 
     function checkLoginState() {
+        console.log(FB)
         FB.getLoginStatus(function(response) {
             console.log(response)
             if(response.status === "connected") {
                 statusChangeCallback(response)
             }
         });
-        Fb.api('/me', function(response) {
+        FB.api('/me', function(response) {
             console.log('api', JSON.stringify(responsr))
         })
     }
