@@ -31,6 +31,7 @@
     <div>登入狀態:<span class="isLogin">未登入</span></div>
 
     <script>
+
     const state = {
         isLogin: null,
     }
@@ -42,38 +43,45 @@
             xfbml      : true,
             version    : 'v8.0'
         });
-
         FB.AppEvents.logPageView();   
+    };
 
-        };
+    (function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 
-        (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            console.log(response)
+            if(response.status === "connected") {
+                statusChangeCallback(response)
+            }
+        });
+        Fb.api('/me', function(response) {
+            console.log('api', JSON.stringify(responsr))
+        })
+    }
 
-        function checkLoginState() {
-            FB.getLoginStatus(function(response) {
-                console.log(response)
-                if(response.status === "connected") {
-                    statusChangeCallback(response)
-                }
-            });
-            Fb.api('/me', function(response) {
-                console.log('api', JSON.stringify(responsr))
-            })
+    function statusChangeCallback(response) {
+        const { status } = response
+        state.isLogin = status 
+        console.log(state)
+        loginStatus()
+    }
+
+    function loginStatus() {
+        if(state.isLogin === "connected") {
+            document.querySelector('.isLogin').innerHTML = `已登入`
+        } else {
+            document.querySelector('.isLogin').innerHTML = `未登入`
         }
+    }
 
-        function statusChangeCallback(response) {
-            const { status } = response
-            state.isLogin = status 
-            console.log(state)
-        }
-
-        
+    loginStatus()
 
     </script>
 </body>
