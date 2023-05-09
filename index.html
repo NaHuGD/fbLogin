@@ -1,89 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>facebook login</title>
     <style>
-        html {
-            font-size: 16px;
-        }
-        button {
-            color: #fff;
-            border-radius: 6px;
-            background: #4966B5;
-            border: 0;
-        }
-        button:focus {
-            display: none;
-        }
+      html {
+        font-size: 16px;
+      }
+      button {
+        color: #fff;
+        border-radius: 6px;
+        background: #4966b5;
+        border: 0;
+      }
+      button:focus {
+        display: none;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <div>帳號:<input type="text"></div>
-        <div>密碼:<input type="password"></div>
-        <fb:login-button 
-            scope="public_profile,email"
-            onlogin="checkLoginState();">
-        </fb:login-button>
+      <div>帳號:<input type="text" /></div>
+      <div>密碼:<input type="password" /></div>
+      <fb:login-button
+        scope="public_profile,email"
+        onlogin="checkLoginState();"
+      >
+      </fb:login-button>
     </div>
     <div>登入狀態:<span class="isLogin">未登入</span></div>
+    <div
+      class="fb-like"
+      data-share="true"
+      data-width="450"
+      data-show-faces="true"
+    ></div>
 
     <script>
-
-    const state = {
+      const state = {
         isLogin: null,
-    }
-    
-    window.fbAsyncInit = function() {
+      };
+
+      window.fbAsyncInit = function () {
         FB.init({
-            appId      : '603510020334245',
-            cookie     : true,
-            xfbml      : true,
-            version    : 'v8.0'
+          appId: "614829127408882",
+          xfbml: true,
+          version: "v16.0",
         });
-        FB.AppEvents.logPageView();   
-    };
+        FB.AppEvents.logPageView();
+      };
 
-    (function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-    function checkLoginState() {
-        console.log(FB)
-        FB.getLoginStatus(function(response) {
-            console.log(response)
-            if(response.status === "connected") {
-                statusChangeCallback(response)
-            }
-        });
-        FB.api('/me', function(response) {
-            console.log('api', JSON.stringify(response))
-        })
-    }
-
-    function statusChangeCallback(response) {
-        const { status } = response
-        state.isLogin = status 
-        console.log(state)
-        loginStatus()
-    }
-
-    function loginStatus() {
-        if(state.isLogin === "connected") {
-            document.querySelector('.isLogin').innerHTML = `已登入`
-        } else {
-            document.querySelector('.isLogin').innerHTML = `未登入`
+      (function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+          return;
         }
-    }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, "script", "facebook-jssdk");
 
-    loginStatus()
+      function checkLoginState() {
+        console.log(FB);
+        FB.getLoginStatus(function (response) {
+          console.log(response);
+          if (response.status === "connected") {
+            statusChangeCallback(response);
+          }
+        });
+        FB.api("/me", function (response) {
+          console.log("api", JSON.stringify(response));
+        });
+      }
 
+      function statusChangeCallback(response) {
+        const { status } = response;
+        state.isLogin = status;
+        console.log(state);
+        loginStatus();
+      }
+
+      function loginStatus() {
+        if (state.isLogin === "connected") {
+          document.querySelector(".isLogin").innerHTML = `已登入`;
+        } else {
+          document.querySelector(".isLogin").innerHTML = `未登入`;
+        }
+      }
+
+      loginStatus();
     </script>
-</body>
+  </body>
 </html>
